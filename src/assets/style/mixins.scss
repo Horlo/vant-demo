@@ -1,0 +1,40 @@
+/**
+* 溢出省略号
+* @param {Number} 行数
+*/
+@mixin text-ellipsis($rowCount: 1) {
+    @if $rowCount <=1 {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    @else {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: $rowCount;
+        -webkit-box-orient: vertical;
+    }
+}
+
+@svg 1px-border {
+    width: 4px;
+    height: 4px;
+
+    @rect {
+        fill: transparent;
+        width: 100%;
+        height: 100%;
+        stroke-width: 25%;
+        stroke: var(--color, black);
+    }
+}
+
+
+@mixin border($color: #ebedf0) {
+    border: 1px solid transparent;
+    border-image: svg(1px-border param(--color $color)) 1 stretch;
+
+}
