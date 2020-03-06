@@ -1,11 +1,17 @@
 <template>
-    <div></div>
+    <div>this is index</div>
 </template>
 <script>
 export default {
-    
+  data() {
+    return {
+    }
+  },
+  mounted(){
+  
+  }
 }
 </script>
-<style lang="sass">
-
+<style lang="scss">
+    
 </style>
