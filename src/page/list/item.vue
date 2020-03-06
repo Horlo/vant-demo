@@ -11,22 +11,26 @@
         finished-text="没有更多了"
         @load="onLoad"
       >
+        <placeholder/>
         <van-cell
           v-for="item in list"
           :key="item"
           :title="item"
         />
       </van-list>
+      
     </van-pull-refresh>
   </div>
 </template>
 <script>
 import { PullRefresh, List, Cell } from "vant";
+import placeholder from "@/components/placeholder/placeholder.vue";
 export default {
   components: {
     vanPullRefresh: PullRefresh,
     vanList: List,
-    vanCell: Cell
+    vanCell: Cell,
+    placeholder
   },
   props: {
     data: {
@@ -45,7 +49,7 @@ export default {
   data() {
     return {
       loading: false,
-      finished: false,
+      finished: true,
       refreshing: false,
       list: [],
       pageNum: 0,
