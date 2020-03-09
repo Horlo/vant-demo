@@ -15,6 +15,7 @@
           :data="item"
           :index="index"
           :active="active"
+          @click.native = "push"
         ></item>
       </van-tab>
     </van-tabs>
@@ -42,6 +43,13 @@ export default {
       ]
     };
   },
+  methods:{
+    push(){
+      this.$router.push({
+        path:'/'
+      })
+    }
+  }
  
 };
 </script>

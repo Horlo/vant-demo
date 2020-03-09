@@ -4,36 +4,37 @@
     ref="content"
     v-if="state!=-1"
   >
+
+    <!-- 加载中 -->
     <div
-      :style="{top:`${top}px`}"
-      style="position:fixed;left:0;right:0;bottom:0;z-index:10"
+      class="elian-placeholder-loading"
+      :style="{height:`${height}px`}"
+      v-if="state == 0"
     >
-      <!-- 加载中 -->
-      <div
-        class="elian-loading"
-        v-if="state == 0"
-      >
-        this is loading
-      </div>
-      <!-- 暂无数据 -->
-      <div
-        class="empty"
-        v-if="state == 1"
-      >
-
-      </div>
-      <!-- 网络错误 -->
-      <div
-        class="error"
-        v-if="state == 2"
-      >
-
-      </div>
+      this is loading
+    </div>
+    <!-- 暂无数据 -->
+    <div
+      class="elian-placeholder-empty"
+      :style="{height:`${height}px`}"
+      v-if="state == 1"
+    >
+      <button @click="re">re</button>
+    </div>
+    <!-- 网络错误 -->
+    <div
+      class="elian-placeholder-error"
+      :style="{height:`${height}px`}"
+      v-if="state == 2"
+    >
+      <button @click="re">re</button>
     </div>
 
   </div>
 </template>
 <script>
+import { getWindowHeight } from "@/util/dom/style.js";
+import BindEventMixin from "@/mixins/bind-event.js";
 export default {
   props: {
     state: {
@@ -41,22 +42,47 @@ export default {
       type: Number
     }
   },
+  mixins: [
+    BindEventMixin(function(bind) {
+      bind(window, "resize", this.resize);
+    })
+  ],
   data() {
     return {
-      top: 0
+      height: 0
     };
   },
-  mounted() {
-    const el = this.$refs["content"];
-    const { top } = el.getBoundingClientRect();
-    this.top = top;
-
+  methods: {
+    resize() {
+      const el = this.$refs["content"];
+      const { bottom } = el.getBoundingClientRect();
+      this.height = getWindowHeight() - bottom;
+    },
+    re(){
+      this.$emit('re');
+    }
   },
-
+  async mounted() {
+    await this.$nextTick()
+    this.resize();
+  }
 };
 </script>
 <style lang="scss" scoped>
 .elian-placeholder {
+  overflow: visible;
+  height: 0px;
+  position: relative;
+}
 
+.elian-placeholder-loading,
+.elian-placeholder-empty,
+.elian-placeholder-error {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background-color: white;
 }
 </style>

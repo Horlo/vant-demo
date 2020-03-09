@@ -32,7 +32,10 @@
     }
 }
 
-
+/**
+*0.5px方案
+*@param {string} 颜色
+*/
 @mixin border($color: #ebedf0) {
     border: 1px solid transparent;
     border-image: svg(1px-border param(--color $color)) 1 stretch;

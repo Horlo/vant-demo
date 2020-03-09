@@ -11,7 +11,7 @@
         finished-text="没有更多了"
         @load="onLoad"
       >
-        <placeholder/>
+        <placeholder :state="state"/>
         <van-cell
           v-for="item in list"
           :key="item"
@@ -25,6 +25,9 @@
 <script>
 import { PullRefresh, List, Cell } from "vant";
 import placeholder from "@/components/placeholder/placeholder.vue";
+import BindEventMixin from "@/mixins/bind-event.js";
+import { setRootScrollTop,getRootScrollTop } from "@/util/dom/scroll.js";
+
 export default {
   components: {
     vanPullRefresh: PullRefresh,
@@ -46,15 +49,37 @@ export default {
       default: 0
     }
   },
+  mixins:[
+    BindEventMixin(function(bind) {
+      bind(window,'scroll',this.scroll);
+    })
+  ],
   data() {
     return {
       loading: false,
-      finished: true,
+      finished: false,
       refreshing: false,
       list: [],
       pageNum: 0,
-      scrollTop: 0
+      scrollTop: 0,
+      errorCount:false
     };
+  },
+  computed:{
+    state(){
+      if(this.list.length == 0){
+        if(this.finished && !this.error){ //empty
+          return 1
+        }else if(this.errorCount){ //error
+          return 2
+        }else if(this.loading){ //loading
+          return 0
+        }
+        return -1;
+      }else{
+        return -1;
+      }
+    }
   },
   methods: {
     onRefresh() {
@@ -81,30 +106,23 @@ export default {
     },
     scroll() {
       if (this.active != this.index) return;
-      this.scrollTop =
-        document.documentElement.scrollTop ||
-        window.pageYOffset ||
-        document.body.scrollTop;
+      this.scrollTop = getRootScrollTop();
     }
   },
   watch: {
     active(n) {
       if (n != this.index) return;
-      window.scrollTo(0, this.scrollTop);
+      setRootScrollTop(this.scrollTop)
+      // window.scrollTo(0, );
     }
-  },
-  activated() {
-    if (this.active != this.index) return;
-    window.scrollTo(0, this.scrollTop);
-  },
-  mounted() {
-    window.addEventListener("scroll", this.scroll.bind(this));
-  },
-  destroyed() {
-    window.removeEventListener("scroll", this.scroll);
   }
 };
 </script>
-<style lang="sass">
-
+<style lang="scss">
+.doge {
+  width: 140px;
+  height: 72px;
+  margin-top: 8px;
+  border-radius: 4px;
+}
 </style>

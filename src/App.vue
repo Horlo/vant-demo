@@ -1,9 +1,8 @@
 <template>
   <div id="app">
-    <keep-alive>
+    <vue-page-stack>
        <router-view></router-view>
-    </keep-alive>
-   
+    </vue-page-stack>
   </div>
 </template>
 
