@@ -11,7 +11,7 @@
       :style="{height:`${height}px`}"
       v-if="state == 0"
     >
-      this is loading
+     
     </div>
     <!-- 暂无数据 -->
     <div
@@ -55,15 +55,17 @@ export default {
   methods: {
     resize() {
       const el = this.$refs["content"];
-      const { bottom } = el.getBoundingClientRect();
-      this.height = getWindowHeight() - bottom;
+      if (el) {
+        const { bottom } = el.getBoundingClientRect();
+        this.height = getWindowHeight() - bottom;
+      }
     },
-    re(){
-      this.$emit('re');
+    re() {
+      this.$emit("re");
     }
   },
   async mounted() {
-    await this.$nextTick()
+    await this.$nextTick();
     this.resize();
   }
 };
@@ -80,8 +82,7 @@ export default {
 .elian-placeholder-error {
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
+  width: 100%;
   z-index: 10;
   background-color: white;
 }

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import index from "@/page/index/index.vue";
+import index from "@/view/index/index.vue";
 
 Vue.use(Router)
 
@@ -17,12 +17,12 @@ const router = new Router({
         {
             path: '/list',
             name: 'list',
-            component: () => import('@/page/list/list.vue'),
+            component: () => import('@/view/list/list.vue'),
         },
         {
             path: '/detail',
             name:'detail',
-            component: () => import('@/page/detail/detail.vue'),
+            component: () => import('@/view/detail/detail.vue'),
         }
     ],
     scrollBehavior(to, from, savedPosition) {

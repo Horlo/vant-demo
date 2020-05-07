@@ -46,7 +46,7 @@ export default {
   methods:{
     push(){
       this.$router.push({
-        path:'/'
+        path:'/detail'
       })
     }
   }

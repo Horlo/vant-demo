@@ -102,7 +102,7 @@ export default {
         if (this.list.length >= 40) {
           this.finished = true;
         }
-      }, 1000);
+      }, 200000);
     },
     scroll() {
       if (this.active != this.index) return;

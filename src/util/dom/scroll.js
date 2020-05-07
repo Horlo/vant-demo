@@ -69,3 +69,15 @@ export function getElementTop(el, scroller) {
     const scrollTop = scroller ? getScrollTop(scroller) : getRootScrollTop();
     return el.getBoundingClientRect().top + scrollTop;
 }
+
+export function scrollIntoView(el,scroller){
+    const scrollerWidth = scroller.clientWidth;
+    const elOffsetLeft = el.offsetLeft;
+    const elWidth = el.offsetWidth;
+    const difference = (scrollerWidth - elWidth) / 2 - elOffsetLeft;
+    scroller.scrollLeft = scroller.scrollLeft + difference;
+}
+
+
+
+

@@ -1,25 +1,43 @@
 <template>
-  <div
-    v-html="content"
-    v-lazy-container="{ selector: 'img' }"
-    @click="handleClick($event)"
-    ref="content"
-  >
-
+  <div>
+    <div
+      v-html="content"
+      v-lazy-container="{ selector: 'img' }"
+      @click="handleClick($event)"
+      ref="content"
+    >
+    </div>
+    <van-image-preview
+      v-model="show"
+      :images="images"
+      :start-position="startPosition"
+      :close-on-popstate="true"
+    >
+    </van-image-preview>
+    <button @click="goBack">click me</button>
   </div>
 </template>
 <script>
-import { ImagePreview } from "vant";
+import back from "@/mixins/back.js";
 export default {
+  mixins: [back],
   data() {
     return {
-      content: ""
+      content: "",
+      startPosition: 0,
+      images: [],
+      show: false
     };
   },
   mounted() {
     this.addHtml();
   },
   methods: {
+    goBack() {
+      this.backByName("index", next => {
+        next();
+      });
+    },
     async addHtml() {
       let htmlStr =
         '<img data-src="https://img.yzcdn.cn/vant/apple-1.jpg"/><img data-src="https://img.yzcdn.cn/vant/apple-2.jpg"/>';
@@ -37,10 +55,8 @@ export default {
           startPosition = index;
         }
       });
-      ImagePreview({
-        images,
-        startPosition
-      });
+      this.show = true;
+      this.images = images;
     }
   }
 };
